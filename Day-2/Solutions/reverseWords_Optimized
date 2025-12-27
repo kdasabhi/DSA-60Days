@@ -1,0 +1,61 @@
+class Solution {
+    public String reverseWords(String s) {
+
+        int l = 0;
+        int r = s.length() - 1;
+
+        // 1. Remove leading spaces
+        while (l < s.length() && s.charAt(l) == ' ') {
+            l++;
+        }
+
+        // 2. Remove trailing spaces
+        while (r >= 0 && s.charAt(r) == ' ') {
+            r--;
+        }
+
+        // 3. Build string with single spaces only
+        StringBuilder sb = new StringBuilder();
+        while (l <= r) {
+            if (s.charAt(l) != ' ') {
+                sb.append(s.charAt(l));
+            } else {
+                // add space only if last char in sb is not space
+                if (sb.length() > 0 && sb.charAt(sb.length() - 1) != ' ') {
+                    sb.append(' ');
+                }
+            }
+            l++;
+        }
+
+        // 4. Reverse the entire string
+        int i = 0, j = sb.length() - 1;
+        while (i < j) {
+            char temp = sb.charAt(i);
+            sb.setCharAt(i, sb.charAt(j));
+            sb.setCharAt(j, temp);
+            i++;
+            j--;
+        }
+
+        // 5. Reverse each word
+        int start = 0;
+        for (int end = 0; end <= sb.length(); end++) {
+            if (end == sb.length() || sb.charAt(end) == ' ') {
+                int p1 = start;
+                int p2 = end - 1;
+
+                while (p1 < p2) {
+                    char temp = sb.charAt(p1);
+                    sb.setCharAt(p1, sb.charAt(p2));
+                    sb.setCharAt(p2, temp);
+                    p1++;
+                    p2--;
+                }
+                start = end + 1;
+            }
+        }
+
+        return sb.toString();
+    }
+}
